@@ -1,0 +1,74 @@
+# NOTE: Make sure you replace <ENTER_S3_BUCKET> with your S3 Bucket before running this job.
+# Replace the <JOB_EXECUTION_ROLE_ARN> with the flink_job_execution_role_arn output.
+---
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: basic-example-karpenter-flink
+  namespace: flink-team-a-ns
+spec:
+  imagePullPolicy: Always
+  emrReleaseLabel: "emr-7.1.0-flink-latest"
+  flinkVersion: v1_18
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "2"
+    # Autotuning parameters
+    kubernetes.operator.job.autoscaler.autotune.enable: "true"
+    kubernetes.operator.job.autoscaler.autotune.metrics.history.max.count: "2"
+    kubernetes.operator.job.autoscaler.autotune.metrics.restart.count: "1"
+    metrics.job.status.enable: TOTAL_TIME
+
+    # Autoscaler parameters
+    kubernetes.operator.job.autoscaler.enabled: "true"
+    kubernetes.operator.job.autoscaler.scaling.enabled: "true"
+    kubernetes.operator.job.autoscaler.stabilization.interval: "5s"
+    kubernetes.operator.job.autoscaler.metrics.window: "1m"
+
+    jobmanager.scheduler: adaptive
+    # Replace with s3 bucket in your own account
+    state.checkpoints.dir: s3://nhon-test-eks/checkpoints
+    state.savepoints.dir: s3://nhon-test-eks/savepoints
+
+  # Replace this execution role ARN with your own
+  executionRoleArn: arn:aws:iam::992382655839:role/vendor1-flink-team-a-20240714145219094000000008
+
+  podTemplate:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: pod-template
+    spec:
+      nodeSelector:
+        NodeGroupType: "FlinkComputeOptimized"
+
+  jobManager:
+    # Replace with s3 bucket in your own account
+    storageDir: s3://nhon-test-eks/data/basic-example-app-cluster/jobmanager
+    resource:
+      memory: "2048m"
+      cpu: 1
+
+  taskManager:
+    replicas: 2
+    resource:
+      memory: "2048m"
+      cpu: 1
+
+  job:
+    # if you have your job jar in S3 bucket you can use that path as well
+    jarURI: local:///opt/flink/examples/streaming/StateMachineExample.jar
+    parallelism: 4
+    upgradeMode: savepoint
+    savepointTriggerNonce: 0
+  monitoringConfiguration:
+    s3MonitoringConfiguration:
+      logUri: s3://vendor1-cloudwatch-sparkjob/logs
+    cloudWatchMonitoringConfiguration:
+       logGroupName: /aws/emr-flink/flink-team-a
+    sideCarResources:
+      limits:
+        cpuLimit: 500m
+        memoryLimit: 250Mi
+    containerLogRotationConfiguration:
+        rotationSize: 2GB
+        maxFilesToKeep: "10"

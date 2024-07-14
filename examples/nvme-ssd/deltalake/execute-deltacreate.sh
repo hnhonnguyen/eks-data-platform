@@ -20,14 +20,14 @@ INPUT_DATA_S3_PATH="${SPARK_JOB_S3_PATH}/data"
 #--------------------------------------------
 # Copy PySpark Scripts, Pod Templates and Input data to S3 bucket
 #--------------------------------------------
-aws s3 sync "./scripts" ${SCRIPTS_S3_PATH}
-aws s3 sync "./data" ${INPUT_DATA_S3_PATH}
+aws s3 sync "./scripts" ${SCRIPTS_S3_PATH} --profile nhonnh3
+aws s3 sync "./data" ${INPUT_DATA_S3_PATH} --profile nhonnh3
 
 #--------------------------------------------
 # Execute Spark job
 #--------------------------------------------
 
-aws emr-containers start-job-run \
+aws emr-containers start-job-run --profile nhonnh3 \
   --region $AWS_REGION \
   --virtual-cluster-id $EMR_VIRTUAL_CLUSTER_ID \
   --name job-deltalake \

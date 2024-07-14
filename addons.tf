@@ -88,14 +88,14 @@ module "eks_blueprints_addons" {
   karpenter_enable_spot_termination = true
   karpenter_node = {
     iam_role_use_name_prefix = true
-    iam_role_name            = "${local.name}-karpenter-node"
+    iam_role_name            = "${local.name}-karpenter-node-role"
     iam_role_additional_policies = {
       AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
     }
   }
   karpenter = {
-    role_name = "${local.name}-karpenter"
-    chart_version       = "0.36.0"
+    role_name           = "${local.name}-karpenter"
+    chart_version       = "0.37.0"
     repository_username = data.aws_ecrpublic_authorization_token.token.user_name
     repository_password = data.aws_ecrpublic_authorization_token.token.password
   }
@@ -105,10 +105,10 @@ module "eks_blueprints_addons" {
   #---------------------------------------
   enable_aws_cloudwatch_metrics = true
   aws_cloudwatch_metrics = {
-    name = "${local.name}-cloudwatch-metrics"
-    namespace =  "${local.name}-cloudwatch"
+    name      = "${local.name}-cloudwatch-metrics"
+    namespace = "${local.name}-cloudwatch"
     role_name = "${local.name}-cloudwatch-metrics"
-    values = [templatefile("${path.module}/helm-values/aws-cloudwatch-metrics-values.yaml", {})]
+    values    = [templatefile("${path.module}/helm-values/aws-cloudwatch-metrics-values.yaml", {})]
   }
 
   #---------------------------------------
@@ -116,10 +116,24 @@ module "eks_blueprints_addons" {
   #---------------------------------------
   enable_aws_load_balancer_controller = true
   aws_load_balancer_controller = {
-    name = "${local.name}-aws-load-balancer-controller"
-    role_name = "${local.name}-alb-controller"
+    chart_version = "1.8.1"
+    name          = "${local.name}-aws-load-balancer-controller"
+    role_name     = "${local.name}-alb-controller"
   }
-
+  #---------------------------------------
+  # Install cert-manager
+  #---------------------------------------
+  enable_cert_manager = true
+  cert_manager = {
+    chart_version = "1.15.1"
+    depends_on    = [module.eks_blueprints_addons.aws_load_balancer_controller]
+    set_values = [
+      {
+        name  = "extraArgs[0]"
+        value = "--enable-certificate-owner-ref=false"
+      },
+    ]
+  }
   #---------------------------------------
   # AWS for FluentBit - DaemonSet
   #---------------------------------------
@@ -152,47 +166,40 @@ module "eks_blueprints_addons" {
   # 2- Grafana Admin user: admin
   # 3- Get admin user password: `aws secretsmanager get-secret-value --secret-id <output.grafana_secret_name> --region $AWS_REGION --query "SecretString" --output text`
   #---------------------------------------------------------------
-  enable_kube_prometheus_stack = true
-  kube_prometheus_stack = {
-    values = [
-      var.enable_amazon_prometheus ? templatefile("${path.module}/helm-values/kube-prometheus-amp-enable.yaml", {
-        region              = local.region
-        amp_sa              = local.amp_ingest_service_account
-        amp_irsa            = module.amp_ingest_irsa[0].iam_role_arn
-        amp_remotewrite_url = "https://aps-workspaces.${local.region}.amazonaws.com/workspaces/${aws_prometheus_workspace.amp[0].id}/api/v1/remote_write"
-        amp_url             = "https://aps-workspaces.${local.region}.amazonaws.com/workspaces/${aws_prometheus_workspace.amp[0].id}"
-      }) : templatefile("${path.module}/helm-values/kube-prometheus.yaml", {})
-    ]
-    chart_version = "48.1.1"
-    set_sensitive = [
-      {
-        name  = "grafana.adminPassword"
-        value = data.aws_secretsmanager_secret_version.admin_password_version.secret_string
-      }
-    ],
-  }
+  # enable_kube_prometheus_stack = false
+  # kube_prometheus_stack = {
+  #   values = [
+  #     var.enable_amazon_prometheus ? templatefile("${path.module}/helm-values/kube-prometheus-amp-enable.yaml", {
+  #       region              = local.region
+  #       amp_sa              = local.amp_ingest_service_account
+  #       amp_irsa            = module.amp_ingest_irsa[0].iam_role_arn
+  #       amp_remotewrite_url = "https://aps-workspaces.${local.region}.amazonaws.com/workspaces/${aws_prometheus_workspace.amp[0].id}/api/v1/remote_write"
+  #       amp_url             = "https://aps-workspaces.${local.region}.amazonaws.com/workspaces/${aws_prometheus_workspace.amp[0].id}"
+  #     }) : templatefile("${path.module}/helm-values/kube-prometheus.yaml", {})
+  #   ]
+  #   chart_version = "48.1.1"
+  #   set_sensitive = [
+  #     {
+  #       name  = "grafana.adminPassword"
+  #       value = data.aws_secretsmanager_secret_version.admin_password_version.secret_string
+  #     }
+  #   ],
+  # }
 
   tags = local.tags
 }
 
-data "kubectl_path_documents" "spark_monitor" {
-  pattern = "${path.module}/emr-grafana-dashboard/spark-monitor.yaml"
-}
-
-resource "kubectl_manifest" "spark_monitor" {
-  for_each  = toset(data.kubectl_path_documents.spark_monitor.documents)
-  yaml_body = each.value
-
-  depends_on = [module.eks_blueprints_addons]
-}
+# resource "kubectl_manifest" "spark_monitor" {
+#   yaml_body  = file("${path.module}/emr-grafana-dashboard/spark-monitor.yaml")
+#   depends_on = [module.eks_blueprints_addons]
+# }
 
 #---------------------------------------------------------------
 # Data on EKS Kubernetes Addons
 #---------------------------------------------------------------
 module "eks_data_addons" {
-  source  = "aws-ia/eks-data-addons/aws"
-  version = "~> 1.0" # ensure to update this to the latest/desired version
-
+  source            = "aws-ia/eks-data-addons/aws"
+  version           = "1.32.1" # ensure to update this to the latest/desired version
   oidc_provider_arn = module.eks.oidc_provider_arn
 
   #---------------------------------------------------------------
@@ -230,6 +237,15 @@ module "eks_data_addons" {
   }
 
   #---------------------------------------------------------------
+  # EMR Flink operator
+  #---------------------------------------------------------------
+  enable_emr_flink_operator = true
+  emr_flink_operator_helm_config = {
+    name                     = var.flink_operator
+    operatorExecutionRoleArn = module.flink_irsa_operator.iam_role_arn
+  }
+
+  #---------------------------------------------------------------
   # Spark History Server Add-on
   #---------------------------------------------------------------
   # Spark history server is required only when EMR Spark Operator is enabled
@@ -246,51 +262,50 @@ module "eks_data_addons" {
 #---------------------------------------
 # Karpenter Provisioners
 #---------------------------------------
-data "kubectl_path_documents" "karpenter_provisioners" {
-  pattern = "${path.module}/karpenter-provisioners/spark-*.yaml"
-  vars = {
-    azs            = local.region
-    eks_cluster_id = module.eks.cluster_name
-  }
+locals {
+  provisioner_files = tolist(fileset("${path.module}/karpenter-provisioners", "data-*.yaml"))
 }
 
 resource "kubectl_manifest" "karpenter_provisioner" {
-  for_each  = toset(data.kubectl_path_documents.karpenter_provisioners.documents)
-  yaml_body = each.value
-
+  count = length(local.provisioner_files)
+  yaml_body = templatefile("${path.module}/karpenter-provisioners/${local.provisioner_files[count.index]}", {
+    azs               = local.region
+    eks_cluster_id    = module.eks.cluster_name
+    node_iam_role_arn = split("/", module.eks_blueprints_addons.karpenter.node_iam_role_arn)[1]
+  })
   depends_on = [module.eks_blueprints_addons]
 }
 
 #---------------------------------------------------------------
 # Grafana Admin credentials resources
 #---------------------------------------------------------------
-data "aws_secretsmanager_secret_version" "admin_password_version" {
-  secret_id  = aws_secretsmanager_secret.grafana.id
-  depends_on = [aws_secretsmanager_secret_version.grafana]
-}
+# data "aws_secretsmanager_secret_version" "admin_password_version" {
+#   secret_id  = aws_secretsmanager_secret.grafana.id
+#   depends_on = [aws_secretsmanager_secret_version.grafana]
+# }
 
-resource "random_password" "grafana" {
-  length           = 16
-  special          = true
-  override_special = "@_"
-}
+# resource "random_password" "grafana" {
+#   length           = 16
+#   special          = true
+#   override_special = "@_"
+# }
 
-resource "random_string" "grafana" {
-  length = 4
-  lower  = true
-  special = false
-}
+# resource "random_string" "grafana" {
+#   length  = 4
+#   lower   = true
+#   special = false
+# }
 
-#tfsec:ignore:aws-ssm-secret-use-customer-key
-resource "aws_secretsmanager_secret" "grafana" {
-  name                    = "${local.name}-grafana-${random_string.grafana.result}"
-  recovery_window_in_days = 0 # Set to zero for this example to force delete during Terraform destroy
-}
+# #tfsec:ignore:aws-ssm-secret-use-customer-key
+# resource "aws_secretsmanager_secret" "grafana" {
+#   name                    = "${local.name}-grafana-${random_string.grafana.result}"
+#   recovery_window_in_days = 0 # Set to zero for this example to force delete during Terraform destroy
+# }
 
-resource "aws_secretsmanager_secret_version" "grafana" {
-  secret_id     = aws_secretsmanager_secret.grafana.id
-  secret_string = random_password.grafana.result
-}
+# resource "aws_secretsmanager_secret_version" "grafana" {
+#   secret_id     = aws_secretsmanager_secret.grafana.id
+#   secret_string = random_password.grafana.result
+# }
 
 # Creating an s3 bucket for Spark History event logs
 module "s3_bucket" {

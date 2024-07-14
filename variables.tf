@@ -61,7 +61,7 @@ variable "enable_fsx_for_lustre" {
 variable "enable_emr_spark_operator" {
   description = "Enable the Spark Operator to submit jobs with EMR Runtime"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "enable_kubecost" {
@@ -73,12 +73,22 @@ variable "enable_kubecost" {
 variable "registry_id" {
   # https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/docker-custom-images-tag.html
   description = "Refers to the AWS account ID for current region"
-  type = string
-  default = "671219180197" #ap-southeast-1
+  type        = string
+  default     = "671219180197" #ap-southeast-1
 }
 
 variable "data_teams" {
   description = "Data team to separate environment"
-  type = list(string)
-  default = [ "data-team-a"]
+  type        = list(string)
+  default     = ["data-team-a"]
+}
+
+variable "flink_team" {
+  type    = string
+  default = "flink-team-a"
+}
+
+variable "flink_operator" {
+  type    = string
+  default = "flink-kubernetes-operator"
 }

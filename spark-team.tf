@@ -3,7 +3,6 @@ locals {
 }
 
 resource "kubernetes_namespace_v1" "spark_team_a" {
-  count = var.enable_emr_spark_operator ? 1 : 0
   metadata {
     name = local.spark_team
   }
@@ -13,25 +12,23 @@ resource "kubernetes_namespace_v1" "spark_team_a" {
 }
 
 resource "kubernetes_service_account_v1" "spark_team_a" {
-  count = var.enable_emr_spark_operator ? 1 : 0
   metadata {
     name        = local.spark_team
-    namespace   = kubernetes_namespace_v1.spark_team_a[0].metadata[0].name
-    annotations = { "eks.amazonaws.com/role-arn" : module.spark_team_a_irsa[0].iam_role_arn }
+    namespace   = kubernetes_namespace_v1.spark_team_a.metadata[0].name
+    annotations = { "eks.amazonaws.com/role-arn" : module.spark_team_a_irsa.iam_role_arn }
   }
 
   automount_service_account_token = true
-  depends_on = [ module.spark_team_a_irsa ]
+  depends_on                      = [module.spark_team_a_irsa]
 }
 
 resource "kubernetes_secret_v1" "spark_team_a" {
-  count = var.enable_emr_spark_operator ? 1 : 0
   metadata {
     name      = "${local.spark_team}-secret"
-    namespace = kubernetes_namespace_v1.spark_team_a[0].metadata[0].name
+    namespace = kubernetes_namespace_v1.spark_team_a.metadata[0].name
     annotations = {
-      "kubernetes.io/service-account.name"      = kubernetes_service_account_v1.spark_team_a[0].metadata[0].name
-      "kubernetes.io/service-account.namespace" = kubernetes_namespace_v1.spark_team_a[0].metadata[0].name
+      "kubernetes.io/service-account.name"      = kubernetes_service_account_v1.spark_team_a.metadata[0].name
+      "kubernetes.io/service-account.namespace" = kubernetes_namespace_v1.spark_team_a.metadata[0].name
     }
   }
 
@@ -43,7 +40,6 @@ resource "kubernetes_secret_v1" "spark_team_a" {
 #---------------------------------------------------------------
 module "spark_team_a_irsa" {
   source  = "aws-ia/eks-blueprints-addon/aws"
-  count   = var.enable_emr_spark_operator ? 1 : 0
   version = "~> 1.0"
 
   # Disable helm release
@@ -54,7 +50,7 @@ module "spark_team_a_irsa" {
   role_name     = "${local.name}-${local.spark_team}"
   create_policy = false
   role_policies = {
-    spark_team_a_policy = aws_iam_policy.spark[0].arn
+    spark_team_a_policy = aws_iam_policy.spark.arn
   }
 
   oidc_providers = {
@@ -70,18 +66,15 @@ module "spark_team_a_irsa" {
 # Creates IAM policy for IRSA. Provides IAM permissions for Spark driver/executor pods
 #---------------------------------------------------------------
 resource "aws_iam_policy" "spark" {
-  count       = var.enable_emr_spark_operator ? 1 : 0
   description = "IAM role policy for Spark Job execution"
   name        = "${local.name}-spark-irsa"
   policy      = data.aws_iam_policy_document.spark_operator.json
-  depends_on = [ data.aws_iam_policy_document.spark_operator ]
 }
 
 #---------------------------------------------------------------
 # Kubernetes Cluster role for service Account analytics-k8s-data-team-a
 #---------------------------------------------------------------
 resource "kubernetes_cluster_role" "spark_role" {
-  count = var.enable_emr_spark_operator ? 1 : 0
   metadata {
     name = "spark-cluster-role"
   }
@@ -139,7 +132,6 @@ resource "kubernetes_cluster_role" "spark_role" {
 # Kubernetes Cluster Role binding role for service Account analytics-k8s-data-team-a
 #---------------------------------------------------------------
 resource "kubernetes_cluster_role_binding" "spark_role_binding" {
-  count = var.enable_emr_spark_operator ? 1 : 0
   metadata {
     name = "spark-cluster-role-bind"
   }
@@ -153,7 +145,7 @@ resource "kubernetes_cluster_role_binding" "spark_role_binding" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = kubernetes_cluster_role.spark_role[0].id
+    name      = kubernetes_cluster_role.spark_role.id
   }
 
   depends_on = [module.spark_team_a_irsa]

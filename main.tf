@@ -1,5 +1,6 @@
 provider "aws" {
-  region = local.region
+  region  = local.region
+  profile = "nhonnh3"
 }
 
 # ECR always authenticates with `us-east-1` region
@@ -17,7 +18,7 @@ provider "kubernetes" {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
     # This requires the awscli to be installed locally where Terraform is executed
-    args = ["eks", "get-token","--region",  local.region, "--cluster-name", module.eks.cluster_name]
+    args = ["eks", "get-token", "--region", local.region, "--cluster-name", module.eks.cluster_name, "--profile", "nhonnh3"]
   }
 }
 
@@ -64,7 +65,7 @@ locals {
   azs = slice(data.aws_availability_zones.available.names, 0, 2)
 
   tags = merge(var.tags, {
-    Blueprint  = local.name
+    Blueprint = local.name
   })
 }
 
@@ -132,7 +133,7 @@ module "eks" {
       self        = true
     }
   }
-  
+
   eks_managed_node_group_defaults = {
     iam_role_additional_policies = {
       # Not required, but used in the example to access the nodes to inspect mounted volumes
@@ -144,12 +145,12 @@ module "eks" {
     #  Then rely on Karpenter to scale your workloads
     #  You can also make uses on nodeSelector and Taints/tolerations to spread workloads on MNG or Karpenter provisioners
     core_node_group = {
-      name = "${local.name}-core"
+      name        = "${local.name}-core"
       description = "EKS managed node group example launch template"
 
-      min_size     = 1
-      max_size     = 3
-      desired_size = 1
+      min_size     = 2
+      max_size     = 5
+      desired_size = 3
 
       instance_types = ["m5.xlarge"]
 

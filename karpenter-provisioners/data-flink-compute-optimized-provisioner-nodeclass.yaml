@@ -1,0 +1,39 @@
+apiVersion: karpenter.k8s.aws/v1beta1
+kind: EC2NodeClass # Previously kind: AWSNodeTemplate
+metadata:
+  name: flink-compute-optimized
+  namespace: karpenter
+spec:
+  amiFamily: AL2
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeSize: 50Gi
+        volumeType: gp3
+        encrypted: true
+        deleteOnTermination: true
+  role: "${node_iam_role_arn}"
+  subnetSelectorTerms:
+    - tags: # Update the correct region and zones
+        Name: "${eks_cluster_id}-private*"
+  securityGroupSelectorTerms:
+    - name: "${eks_cluster_id}-node*"
+  userData: |
+    MIME-Version: 1.0
+    Content-Type: multipart/mixed; boundary="BOUNDARY"
+
+    --BOUNDARY
+    Content-Type: text/x-shellscript; charset="us-ascii"
+
+    cat <<-EOF > /etc/profile.d/bootstrap.sh
+    #!/bin/sh
+
+    export LOCAL_DISKS='raid0'
+    EOF
+
+    # Source extra environment variables in bootstrap script
+    sed -i '/^set -o errexit/a\\nsource /etc/profile.d/bootstrap.sh' /etc/eks/bootstrap.sh
+
+    --BOUNDARY--
+  tags:
+    InstanceType: "flink-compute-optimized"    # optional, add tags for your own use
