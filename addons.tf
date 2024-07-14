@@ -234,6 +234,7 @@ module "eks_data_addons" {
     values = [templatefile("${path.module}/helm-values/emr-spark-operator-values.yaml", {
       aws_region = var.region
     })]
+    atomic = true
   }
 
   #---------------------------------------------------------------
@@ -243,6 +244,7 @@ module "eks_data_addons" {
   emr_flink_operator_helm_config = {
     name                     = var.flink_operator
     operatorExecutionRoleArn = module.flink_irsa_operator.iam_role_arn
+    atomic                   = true
   }
 
   #---------------------------------------------------------------
