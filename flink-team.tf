@@ -83,7 +83,7 @@ data "aws_iam_policy_document" "flink_sample_job" {
   statement {
     sid       = ""
     effect    = "Allow"
-    resources = ["*"]
+    resources = ["arn:${data.aws_partition.current.partition}:s3:::*"]
     actions = [
       "s3:ListBucket",
       "s3:GetObject",
@@ -96,7 +96,7 @@ data "aws_iam_policy_document" "flink_sample_job" {
   statement {
     sid       = ""
     effect    = "Allow"
-    resources = ["*"]
+    resources = ["arn:${data.aws_partition.current.partition}:logs:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:log-group:*"]
 
     actions = [
       "logs:CreateLogGroup",
