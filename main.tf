@@ -82,11 +82,11 @@ module "eks" {
 
   # if true, Your cluster API server is accessible from the internet. You can, optionally, limit the CIDR blocks that can access the public endpoint.
   #WARNING: Avoid using this option (cluster_endpoint_public_access = true) in preprod or prod accounts. This feature is designed for sandbox accounts, simplifying cluster deployment and testing.
-  cluster_endpoint_public_access = true
+  cluster_endpoint_public_access = false
 
-  vpc_id = module.vpc.vpc_id
+  vpc_id = data.aws_vpc.vendor1.id
   # Filtering only Secondary CIDR private subnets starting with "100.". Subnet IDs where the EKS Control Plane ENIs will be created
-  subnet_ids = compact([for subnet_id, cidr_block in zipmap(module.vpc.private_subnets, module.vpc.private_subnets_cidr_blocks) : substr(cidr_block, 0, 4) == "100." ? subnet_id : null])
+  subnet_ids = [for subnet in data.aws_subnet.eks_subnet : subnet.id]
   # create_aws_auth_configmap = true
   manage_aws_auth_configmap = true
   aws_auth_roles = [
@@ -145,26 +145,42 @@ module "eks" {
     #  Then rely on Karpenter to scale your workloads
     #  You can also make uses on nodeSelector and Taints/tolerations to spread workloads on MNG or Karpenter provisioners
     core_node_group = {
-      name        = "${local.name}-core"
-      description = "EKS managed node group example launch template"
-
-      min_size     = 2
-      max_size     = 5
-      desired_size = 3
-
-      instance_types = ["m5.xlarge"]
+      name                   = "${local.name}-core"
+      create_iam_role        = false
+      create_iam_role_policy = false
+      description            = "EKS managed node group example launch template"
+      iam_role_arn           = data.aws_iam_role.CoreNodeGroup.arn
+      min_size               = 2
+      max_size               = 5
+      desired_size           = 3
+      instance_types         = ["m5.xlarge"]
 
       ebs_optimized = true
       block_device_mappings = {
         xvda = {
           device_name = "/dev/xvda"
           ebs = {
-            volume_size = 100
-            volume_type = "gp3"
+            encrypted             = true
+            volume_size           = 100
+            volume_type           = "gp3"
+            delete_on_termination = true
           }
         }
       }
-
+      network_interfaces = [{
+        associate_public_ip_address = false
+        # delete_on_termination       = true
+        # device_index                = 0
+        # security_groups = 
+        # interface_type     = "interface"
+        # network_card_index = 0
+      }]
+      # metadata_options = {
+      #   http_endpoint               = "enabled"
+      #   http_tokens                 = "required"
+      #   http_put_response_hop_limit = 2
+      #   instance_metadata_tags      = "disabled"
+      # }
       labels = {
         WorkerType    = "${local.name}-ON_DEMAND"
         NodeGroupType = "${local.name}-core"
@@ -173,9 +189,18 @@ module "eks" {
       tags = {
         Name                     = "${local.name}-core-node-grp",
         "karpenter.sh/discovery" = local.name
+        WorkerType               = "${local.name}-ON_DEMAND"
+        NodeGroupType            = "${local.name}-core"
       }
     }
   }
+  create_cloudwatch_log_group = false
+  create_iam_role             = false
+  create_kms_key              = false
+  cluster_encryption_config   = {}
+  outpost_config              = {}
+  iam_role_arn                = data.aws_iam_role.ClusterRole.arn
+  enable_irsa                 = true
 
   tags = local.tags
 }
