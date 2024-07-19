@@ -92,8 +92,3 @@ variable "flink_operator" {
   type    = string
   default = "flink-kubernetes-operator"
 }
-
-variable "profile" {
-  type    = string
-  default = "vendor1"
-}

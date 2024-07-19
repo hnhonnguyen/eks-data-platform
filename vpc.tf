@@ -1,11 +1,16 @@
 variable "vpc_id" {
-  default     = "vpc-07802c7ec880cc955"
+  default     = "vpc-02381b08951db92b5"
   type        = string
   description = "This created vpc"
 }
 
 variable "subnet_ids" {
-  default = ["subnet-0bf0b01ab1a0e8530", "subnet-001ab6642a2c79922"]
+  default = [
+    "subnet-03589b20db544b118",
+    "subnet-005a76641b441106a",
+    "subnet-047ed6ff2bb4afd21",
+    "subnet-08c505511f941f3bf"
+  ]
 }
 
 data "aws_vpc" "vendor1" {
