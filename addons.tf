@@ -210,12 +210,12 @@ module "eks_data_addons" {
   #---------------------------------------------------------------
   # EMR Flink operator
   #---------------------------------------------------------------
-  enable_emr_flink_operator = true
-  emr_flink_operator_helm_config = {
-    name                     = var.flink_operator
-    operatorExecutionRoleArn = module.flink_irsa_operator.iam_role_arn
-    atomic                   = true
-  }
+  # enable_emr_flink_operator = true
+  # emr_flink_operator_helm_config = {
+  #   name                     = var.flink_operator
+  #   operatorExecutionRoleArn = module.flink_irsa_operator.iam_role_arn
+  #   atomic                   = true
+  # }
 
   #---------------------------------------------------------------
   # Spark History Server Add-on
