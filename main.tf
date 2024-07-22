@@ -49,7 +49,7 @@ data "aws_ecr_authorization_token" "token" {
   registry_id = var.registry_id
 }
 
-data "aws_caller_identity" "current" { provider = aws.ecr }
+# data "aws_caller_identity" "current" { provider = aws.ecr }
 data "aws_availability_zones" "available" {}
 data "aws_region" "current" {}
 data "aws_partition" "current" {}
