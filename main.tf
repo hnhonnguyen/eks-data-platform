@@ -49,21 +49,21 @@ data "aws_ecr_authorization_token" "token" {
   registry_id = var.registry_id
 }
 
-data "aws_caller_identity" "current" { provider = aws.ecr }
-data "aws_availability_zones" "available" {}
-data "aws_region" "current" {}
-data "aws_partition" "current" {}
+# data "aws_caller_identity" "current" { provider = aws.ecr }
+# data "aws_availability_zones" "available" {}
+# data "aws_region" "current" {}
+# data "aws_partition" "current" {}
 
-locals {
-  name   = var.name
-  region = var.region
+# locals {
+#   name   = var.name
+#   region = var.region
 
-  azs = slice(data.aws_availability_zones.available.names, 0, 2)
+#   azs = slice(data.aws_availability_zones.available.names, 0, 2)
 
-  tags = merge(var.tags, {
-    Blueprint = local.name
-  })
-}
+#   tags = merge(var.tags, {
+#     Blueprint = local.name
+#   })
+# }
 
 #---------------------------------------------------------------
 # EKS Cluster
