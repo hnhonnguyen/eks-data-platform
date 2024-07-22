@@ -180,8 +180,8 @@ module "eks_data_addons" {
   kubecost_helm_config = {
     values              = [templatefile("${path.module}/helm-values/kubecost-values.yaml", {})]
     version             = "1.104.5"
-    repository_username = data.aws_ecrpublic_authorization_token.token.user_name
-    repository_password = data.aws_ecrpublic_authorization_token.token.password
+    repository_username = data.aws_ecr_authorization_token.token.user_name
+    repository_password = data.aws_ecr_authorization_token.token.password
   }
 
   #---------------------------------------------------------------
