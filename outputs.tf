@@ -37,7 +37,7 @@ output "configure_kubectl" {
 #   value       = aws_secretsmanager_secret.grafana.name
 # }
 
-output "emr_s3_bucket_name" {
-  description = "S3 bucket for EMR workloads. Scripts,Logs etc."
-  value       = module.s3_bucket.s3_bucket_id
-}
+# output "emr_s3_bucket_name" {
+#   description = "S3 bucket for EMR workloads. Scripts,Logs etc."
+#   value       = module.s3_bucket.s3_bucket_id
+# }
