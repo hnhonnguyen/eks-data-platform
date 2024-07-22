@@ -1,5 +1,5 @@
 provider "aws" {
-  region = local.region
+  region = var.region
 }
 
 # ECR always authenticates with `us-east-1` region
