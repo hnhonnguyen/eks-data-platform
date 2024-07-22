@@ -52,7 +52,7 @@ data "aws_ecr_authorization_token" "token" {
   registry_id = var.registry_id
 }
 
-data "aws_caller_identity" "current" {}
+# data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 data "aws_region" "current" {}
 data "aws_partition" "current" {}
@@ -100,7 +100,7 @@ module "eks" {
     },
     {
       # Required for EMR on EKS virtual cluster
-      rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSServiceRoleForAmazonEMRContainers"
+      rolearn  = "arn:aws:iam::${var.account_id}:role/AWSServiceRoleForAmazonEMRContainers"
       username = "emr-containers"
       groups   = []
     },

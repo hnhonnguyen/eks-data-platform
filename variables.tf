@@ -92,3 +92,8 @@ variable "flink_operator" {
   type    = string
   default = "flink-kubernetes-operator"
 }
+
+variable "account_id" {
+  type    = string
+  default = "962116418130"
+}
