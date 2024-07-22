@@ -5,7 +5,7 @@ variable "name" {
 }
 variable "region" {
   description = "Region"
-  default     = "ap-southeast-1"
+  default     = "us-east-1"
   type        = string
 }
 variable "eks_cluster_version" {
