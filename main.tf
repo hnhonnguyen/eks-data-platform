@@ -49,11 +49,11 @@ data "aws_ecr_authorization_token" "token" {
   registry_id = var.registry_id
 }
 
-output "ecr_name" {
+output "ecr_password" {
   value = data.aws_ecr_authorization_token.token.password
 }
 
-output "ecr_name" {
+output "ecr_username" {
   value = data.aws_ecr_authorization_token.token.user_name
 }
 
