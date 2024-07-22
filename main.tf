@@ -49,6 +49,14 @@ data "aws_ecr_authorization_token" "token" {
   registry_id = var.registry_id
 }
 
+output "ecr_name" {
+  value = data.aws_ecr_authorization_token.token.password
+}
+
+output "ecr_name" {
+  value = data.aws_ecr_authorization_token.token.user_name
+}
+
 # data "aws_caller_identity" "current" {}
 data "aws_availability_zones" "available" {}
 data "aws_region" "current" {}
