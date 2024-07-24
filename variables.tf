@@ -1,7 +1,7 @@
 variable "name" {
   description = "Name of the VPC and EKS Cluster"
   type        = string
-  default     = "vendor1_poc"
+  default     = "vendor1-poc"
 }
 variable "region" {
   description = "Region"
