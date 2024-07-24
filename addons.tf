@@ -53,33 +53,33 @@ module "eks_blueprints_addons" {
   # CoreDNS Autoscaler helps to scale for large EKS Clusters
   #   Further tuning for CoreDNS is to leverage NodeLocal DNSCache -> https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
   #---------------------------------------------------------------
-  enable_cluster_proportional_autoscaler = true
-  cluster_proportional_autoscaler = {
-    values = [templatefile("${path.module}/helm-values/coredns-autoscaler-values.yaml", {
-      target = "deployment/coredns"
-    })]
-    description = "Cluster Proportional Autoscaler for CoreDNS Service"
-  }
+  # enable_cluster_proportional_autoscaler = false
+  # cluster_proportional_autoscaler = {
+  #   values = [templatefile("${path.module}/helm-values/coredns-autoscaler-values.yaml", {
+  #     target = "deployment/coredns"
+  #   })]
+  #   description = "Cluster Proportional Autoscaler for CoreDNS Service"
+  # }
 
   #---------------------------------------
   # Metrics Server
   #---------------------------------------
-  enable_metrics_server = true
-  metrics_server = {
-    values = [templatefile("${path.module}/helm-values/metrics-server-values.yaml", {})]
-  }
+  # enable_metrics_server = true
+  # metrics_server = {
+  #   values = [templatefile("${path.module}/helm-values/metrics-server-values.yaml", {})]
+  # }
 
   #---------------------------------------
   # Cluster Autoscaler
   #---------------------------------------
-  enable_cluster_autoscaler = false
-  cluster_autoscaler = {
-    create_role = true
-    values = [templatefile("${path.module}/helm-values/cluster-autoscaler-values.yaml", {
-      aws_region     = var.region,
-      eks_cluster_id = module.eks.cluster_name
-    })]
-  }
+  # enable_cluster_autoscaler = false
+  # cluster_autoscaler = {
+  #   create_role = true
+  #   values = [templatefile("${path.module}/helm-values/cluster-autoscaler-values.yaml", {
+  #     aws_region     = var.region,
+  #     eks_cluster_id = module.eks.cluster_name
+  #   })]
+  # }
 
   #---------------------------------------
   # Karpenter Autoscaler for EKS Cluster
@@ -96,8 +96,6 @@ module "eks_blueprints_addons" {
     iam_role_arn  = data.aws_iam_role.Karpenter.arn
     role_name     = "${local.name}-karpenter"
     chart_version = "0.37.0"
-    # repository_username = data.aws_ecr_authorization_token.token.user_name
-    # repository_password = data.aws_ecr_authorization_token.token.password
   }
 
   karpenter_sqs = {
@@ -107,13 +105,13 @@ module "eks_blueprints_addons" {
   #---------------------------------------
   # CloudWatch metrics for EKS
   #---------------------------------------
-  enable_aws_cloudwatch_metrics = true
-  aws_cloudwatch_metrics = {
-    name      = "${local.name}-cloudwatch-metrics"
-    namespace = "${local.name}-cloudwatch"
-    role_name = "${local.name}-cloudwatch-metrics"
-    values    = [templatefile("${path.module}/helm-values/aws-cloudwatch-metrics-values.yaml", {})]
-  }
+  # enable_aws_cloudwatch_metrics = true
+  # aws_cloudwatch_metrics = {
+  #   name      = "${local.name}-cloudwatch-metrics"
+  #   namespace = "${local.name}-cloudwatch"
+  #   role_name = "${local.name}-cloudwatch-metrics"
+  #   values    = [templatefile("${path.module}/helm-values/aws-cloudwatch-metrics-values.yaml", {})]
+  # }
 
   #---------------------------------------
   # Adding AWS Load Balancer Controller
@@ -176,23 +174,23 @@ module "eks_data_addons" {
   # Kubecost Add-on
   #---------------------------------------------------------------
   # Note: Kubecost add-on depends on Kube Prometheus Stack add-on for storing the metrics
-  enable_kubecost = var.enable_kubecost
-  kubecost_helm_config = {
-    values              = [templatefile("${path.module}/helm-values/kubecost-values.yaml", {})]
-    version             = "1.104.5"
-    repository_username = data.aws_ecr_authorization_token.token.user_name
-    repository_password = data.aws_ecr_authorization_token.token.password
-  }
+  # enable_kubecost = var.enable_kubecost
+  # kubecost_helm_config = {
+  #   values              = [templatefile("${path.module}/helm-values/kubecost-values.yaml", {})]
+  #   version             = "1.104.5"
+  #   repository_username = data.aws_ecr_authorization_token.token.user_name
+  #   repository_password = data.aws_ecr_authorization_token.token.password
+  # }
 
   #---------------------------------------------------------------
   # Apache YuniKorn Add-on
   #---------------------------------------------------------------
-  enable_yunikorn = var.enable_yunikorn
-  yunikorn_helm_config = {
-    values = [templatefile("${path.module}/helm-values/yunikorn-values.yaml", {
-      image_version = "1.2.0"
-    })]
-  }
+  # enable_yunikorn = var.enable_yunikorn
+  # yunikorn_helm_config = {
+  #   values = [templatefile("${path.module}/helm-values/yunikorn-values.yaml", {
+  #     image_version = "1.2.0"
+  #   })]
+  # }
 
   #---------------------------------------------------------------
   # EMR Spark Operator
@@ -207,16 +205,6 @@ module "eks_data_addons" {
     })]
     atomic = true
   }
-
-  #---------------------------------------------------------------
-  # EMR Flink operator
-  #---------------------------------------------------------------
-  # enable_emr_flink_operator = true
-  # emr_flink_operator_helm_config = {
-  #   name                     = var.flink_operator
-  #   operatorExecutionRoleArn = module.flink_irsa_operator.iam_role_arn
-  #   atomic                   = true
-  # }
 
   #---------------------------------------------------------------
   # Spark History Server Add-on

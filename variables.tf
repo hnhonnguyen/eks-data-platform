@@ -77,22 +77,6 @@ variable "registry_id" {
   default     = "755674844232" #us-east-1
 }
 
-variable "data_teams" {
-  description = "Data team to separate environment"
-  type        = list(string)
-  default     = ["data-team-a"]
-}
-
-variable "flink_team" {
-  type    = string
-  default = "flink-team-a"
-}
-
-variable "flink_operator" {
-  type    = string
-  default = "flink-kubernetes-operator"
-}
-
 variable "account_id" {
   type    = string
   default = "962116418130"
