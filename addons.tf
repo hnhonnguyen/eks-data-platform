@@ -166,6 +166,7 @@ module "eks_blueprints_addons" {
 # Data on EKS Kubernetes Addons
 #---------------------------------------------------------------
 module "eks_data_addons" {
+  depends_on        = [module.eks_blueprints_addons]
   source            = "aws-ia/eks-data-addons/aws"
   version           = "1.32.1" # ensure to update this to the latest/desired version
   oidc_provider_arn = module.eks.oidc_provider_arn
