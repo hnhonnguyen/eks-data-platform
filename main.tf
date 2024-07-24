@@ -6,7 +6,7 @@ provider "aws" {
 # Docs -> https://docs.aws.amazon.com/AmazonECR/latest/public/public-registries.html
 provider "aws" {
   alias  = "ecr"
-  region = "ap-southeast-1"
+  region = "us-west-1"
 }
 
 provider "kubernetes" {
@@ -48,6 +48,10 @@ data "aws_eks_cluster_auth" "this" {
 data "aws_ecr_authorization_token" "token" {
   provider    = aws.ecr
   registry_id = var.registry_id
+}
+
+data "aws_ecrpublic_authorization_token" "token" {
+  provider = aws.ecr
 }
 
 data "aws_caller_identity" "current" {}
