@@ -6,7 +6,7 @@ provider "aws" {
 # Docs -> https://docs.aws.amazon.com/AmazonECR/latest/public/public-registries.html
 provider "aws" {
   alias  = "ecr"
-  region = "us-east-1"
+  region = "ap-southeast-1"
 }
 
 provider "kubernetes" {

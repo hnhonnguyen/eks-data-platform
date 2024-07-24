@@ -74,7 +74,7 @@ variable "registry_id" {
   # https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/docker-custom-images-tag.html
   description = "Refers to the AWS account ID for current region"
   type        = string
-  default     = "755674844232" #us-east-1
+  default     = "671219180197" #us-east-1
 }
 
 variable "account_id" {
