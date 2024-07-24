@@ -94,10 +94,10 @@ module "eks_blueprints_addons" {
     }
   }
   karpenter = {
-    role_name           = "${local.name}-karpenter"
-    chart_version       = "0.37.0"
-    repository_username = data.aws_ecrpublic_authorization_token.token.user_name
-    repository_password = data.aws_ecrpublic_authorization_token.token.password
+    role_name     = "${local.name}-karpenter"
+    chart_version = "0.37.0"
+    # repository_username = data.aws_ecr_authorization_token.token.user_name
+    # repository_password = data.aws_ecr_authorization_token.token.password
   }
 
   #---------------------------------------
@@ -229,7 +229,7 @@ module "eks_data_addons" {
   #---------------------------------------------------------------
   enable_emr_spark_operator = var.enable_emr_spark_operator
   emr_spark_operator_helm_config = {
-    # repository          = "oci://755674844232.dkr.ecr.us-east-1.amazonaws.com"
+    repository          = "oci://755674844232.dkr.ecr.us-east-1.amazonaws.com"
     repository_username = data.aws_ecr_authorization_token.token.user_name
     repository_password = data.aws_ecr_authorization_token.token.password
     values = [templatefile("${path.module}/helm-values/emr-spark-operator-values.yaml", {
