@@ -96,8 +96,8 @@ module "eks_blueprints_addons" {
   karpenter = {
     role_name           = "${local.name}-karpenter"
     chart_version       = "0.37.0"
-    repository_username = data.aws_ecrpublic_authorization_token.token.user_name
-    repository_password = data.aws_ecrpublic_authorization_token.token.password
+    repository_username = data.aws_ecr_authorization_token.token.user_name
+    repository_password = data.aws_ecr_authorization_token.token.password
   }
 
   #---------------------------------------
