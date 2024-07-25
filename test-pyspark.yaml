@@ -25,12 +25,12 @@ spec:
     volumeMounts:
       - name: scripts
         mountPath: /mnt/spark/scripts
-    # nodeSelector:
-    #   NodeGroupType: "SparkComputeOptimized"
-    # tolerations:
-    #   - key: "spark-compute-optimized"
-    #     operator: "Exists"
-    #     effect: "NoSchedule"
+    nodeSelector:
+      NodeGroupType: "SparkComputeOptimized"
+    tolerations:
+      - key: "spark-compute-optimized"
+        operator: "Exists"
+        effect: "NoSchedule"
   executor:
     cores: 1
     instances: 4
@@ -42,12 +42,12 @@ spec:
       - name: scripts
         mountPath: /mnt/spark/scripts
 
-    # nodeSelector:
-    #   NodeGroupType: "SparkComputeOptimized"
-    # tolerations:
-    #   - key: "spark-compute-optimized"
-    #     operator: "Exists"
-    #     effect: "NoSchedule"
+    nodeSelector:
+      NodeGroupType: "SparkComputeOptimized"
+    tolerations:
+      - key: "spark-compute-optimized"
+        operator: "Exists"
+        effect: "NoSchedule"
   dynamicAllocation:
     enabled: true
     initialExecutors: 2
