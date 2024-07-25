@@ -8,5 +8,5 @@ roleRef:
   name: full-access-role
 subjects:
 - kind: ServiceAccount
-  name: spark-team-a
-  namespace: spark-team-a
+  name: emr-spark-operator
+  namespace: emr-containers-sa-spark
