@@ -46,12 +46,12 @@ data "aws_eks_cluster_auth" "this" {
 # if you are using a different region, make sure to change it, you can get the account from the link below
 # https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/docker-custom-images-tag.html
 data "aws_ecr_authorization_token" "token" {
-  registry_id = var.account_id
+  provider    = aws.ecr
+  registry_id = var.registry_id
 }
 
 data "aws_ecr_authorization_token" "private" {
-  provider    = aws.ecr
-  registry_id = var.registry_id
+  registry_id = var.account_id
 }
 
 data "aws_caller_identity" "current" {}
