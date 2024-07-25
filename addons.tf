@@ -247,7 +247,8 @@ module "eks_data_addons" {
     values = [templatefile("${path.module}/helm-values/emr-spark-operator-values.yaml", {
       aws_region = var.region
     })]
-    atomic = true
+    atomic       = true
+    force_update = true
   }
 
   #---------------------------------------------------------------
