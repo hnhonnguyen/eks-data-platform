@@ -54,7 +54,7 @@ module "eks_blueprints_addons" {
   # ArgoCD
   #---------------------------------------
 
-  enable_argocd = true
+  enable_argocd = false
   argocd = {
     chart_version = "7.3.10"
     values        = [templatefile("${path.module}/helm-values/argocd-values.yaml", {})]
