@@ -39,3 +39,4 @@ test/*
 
 *.txt
 *.zip
+.ipynb_checkpoints*
