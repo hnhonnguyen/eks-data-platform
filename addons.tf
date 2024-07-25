@@ -138,6 +138,7 @@ module "eks_blueprints_addons" {
   cert_manager = {
     chart_version = "1.15.1"
     depends_on    = [module.eks_blueprints_addons.aws_load_balancer_controller]
+    values        = [templatefile("${path.module}/helm-values/cert-manager.yaml", {})]
     set_values = [
       {
         name  = "extraArgs[0]"
