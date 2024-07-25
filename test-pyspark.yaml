@@ -7,7 +7,7 @@ spec:
   type: Python
   pythonVersion: "3"
   mode: cluster
-  image: "671219180197.dkr.ecr.ap-southeast-1.amazonaws.com/spark-operator/emr-6.11.0-spark-operator:latest"
+  image: "671219180197.dkr.ecr.ap-southeast-1.amazonaws.com/spark-operator/emr-7.1.0:latest"
   mainApplicationFile: s3://vendor1-poc-emr-20240725114624169500000001/spark_scripts/basic_spark.py
   sparkVersion: "3.5.0"
   restartPolicy:
