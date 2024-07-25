@@ -5,7 +5,7 @@ apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
   name: taxi-example
-  namespace: emr-spark-operator
+  namespace: spark-team-a
 spec:
   type: Scala
   mode: cluster
@@ -55,7 +55,7 @@ spec:
   driver:
     cores: 1
     memory: "4g"
-    serviceAccount: emr-containers-sa-spark
+    serviceAccount: spark-team-a
     # Using Karpenter provisioner nodeSelectors and tolerations
     nodeSelector:
       NodeGroupType: "SparkComputeOptimized"
@@ -67,7 +67,7 @@ spec:
     cores: 1
     instances: 2
     memory: "4g"
-    serviceAccount: emr-containers-sa-spark
+    serviceAccount: spark-team-a
     # Using Karpenter provisioner nodeSelectors and tolerations
     nodeSelector:
       NodeGroupType: "SparkComputeOptimized"
