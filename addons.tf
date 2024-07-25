@@ -64,7 +64,7 @@ module "eks_blueprints_addons" {
   # CoreDNS Autoscaler helps to scale for large EKS Clusters
   #   Further tuning for CoreDNS is to leverage NodeLocal DNSCache -> https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
   #---------------------------------------------------------------
-  enable_cluster_proportional_autoscaler = true
+  enable_cluster_proportional_autoscaler = false
   cluster_proportional_autoscaler = {
     values = [templatefile("${path.module}/helm-values/coredns-autoscaler-values.yaml", {
       target = "deployment/coredns"
