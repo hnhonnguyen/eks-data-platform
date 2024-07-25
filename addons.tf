@@ -49,6 +49,16 @@ module "eks_blueprints_addons" {
   #---------------------------------------
   # Kubernetes Add-ons
   #---------------------------------------
+
+  #---------------------------------------
+  # ArgoCD
+  #---------------------------------------
+
+  enable_argocd = true
+  argocd = {
+    chart_version = "7.3.10"
+  }
+
   #---------------------------------------------------------------
   # CoreDNS Autoscaler helps to scale for large EKS Clusters
   #   Further tuning for CoreDNS is to leverage NodeLocal DNSCache -> https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
