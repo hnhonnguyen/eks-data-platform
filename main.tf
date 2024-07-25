@@ -147,9 +147,9 @@ module "eks" {
       create_iam_role_policy = false
       description            = "EKS managed node group example launch template"
       iam_role_arn           = data.aws_iam_role.CoreNodeGroup.arn
-      min_size               = 2
-      max_size               = 5
-      desired_size           = 3
+      min_size               = 1
+      max_size               = 3
+      desired_size           = 2
       instance_types         = ["m5.xlarge"]
 
       ebs_optimized = true
