@@ -113,7 +113,7 @@ module "eks_blueprints_addons" {
   #---------------------------------------
   # CloudWatch metrics for EKS
   #---------------------------------------
-  enable_aws_cloudwatch_metrics = true
+  enable_aws_cloudwatch_metrics = false
   aws_cloudwatch_metrics = {
     name      = "${local.name}-cloudwatch-metrics"
     namespace = "${local.name}-cloudwatch"
