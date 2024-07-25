@@ -249,6 +249,7 @@ module "eks_data_addons" {
     })]
     atomic       = true
     force_update = true
+    replace      = true
   }
 
   #---------------------------------------------------------------
