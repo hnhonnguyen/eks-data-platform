@@ -1,6 +1,3 @@
-# NOTE: Make sure you you replce nhon-test-eks with your S3 Bucket before running this job.
-# To execute run this command -> kubectl apply pyspark-pi.yaml
----
 apiVersion: "sparkoperator.k8s.io/v1beta2"
 kind: SparkApplication
 metadata:
