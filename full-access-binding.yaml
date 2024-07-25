@@ -1,12 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: full-access-binding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: full-access-role
+  name: spark-operator-full-access-binding
 subjects:
 - kind: ServiceAccount
-  name: emr-spark-operator
-  namespace: emr-containers-sa-spark
+  name: emr-containers-sa-spark
+  namespace: emr-spark-operator
+roleRef:
+  kind: ClusterRole
+  name: spark-operator-full-access
+  apiGroup: rbac.authorization.k8s.io
