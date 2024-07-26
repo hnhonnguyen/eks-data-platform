@@ -7,7 +7,7 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Recycle
   storageClassName: local-storage-2
   local:
     path: /mnt/disks/vol2
