@@ -15,7 +15,8 @@ spec:
       containers:
       - name: create-dir
         image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-busybox:latest
-        command: ['sh', '-c', 'mkdir -p /mnt/disks/vol1 /mnt/disks/vol2 && chmod 777 /mnt/disks/vol1 /mnt/disks/vol2 && echo "Directories /mnt/disks/vol1 and /mnt/disks/vol2 created successfully" && while true; do sleep 60; done']        volumeMounts:
+        command: ['sh', '-c', 'mkdir -p /mnt/disks/vol1 /mnt/disks/vol2 && chmod 777 /mnt/disks/vol1 /mnt/disks/vol2 && echo "Directories /mnt/disks/vol1 and /mnt/disks/vol2 created successfully" && while true; do sleep 60; done']
+        volumeMounts:
         - name: host-mount
           mountPath: /mnt/disks
       volumes:
