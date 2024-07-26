@@ -51,7 +51,8 @@ backup:
     labels: {}
     networkPolicy:
       enabled: true
-    nodeSelector: {}
+    nodeSelector: 
+      NodeGroupType: vendor1-poc-core
     podSecurityContext:
       enabled: true
       fsGroup: 1001
@@ -312,7 +313,8 @@ primary:
     key: ""
     type: ""
     values: []
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   pdb:
     create: true
     maxUnavailable: ""
@@ -457,7 +459,8 @@ readReplicas:
     key: ""
     type: ""
     values: []
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   pdb:
     create: true
     maxUnavailable: ""
