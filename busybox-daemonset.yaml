@@ -16,7 +16,7 @@ spec:
         kubernetes.io/hostname: ip-10-9-48-56.ap-southeast-1.compute.internal
       containers:
       - name: create-dir
-        image: busybox
+        image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-busybox:latest
         command: ['sh', '-c', 'mkdir -p /mnt/disks/vol1 && chmod 777 /mnt/disks/vol1 && while true; do sleep 3600; done']
         volumeMounts:
         - name: host-mount
