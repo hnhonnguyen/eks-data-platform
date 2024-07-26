@@ -906,7 +906,8 @@ scheduler:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow scheduler pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   # default scheduler affinity is:
   #  podAntiAffinity:
@@ -1044,7 +1045,8 @@ createUserJob:
   extraVolumes: []
   extraVolumeMounts: []
 
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -1143,7 +1145,8 @@ migrateDatabaseJob:
   extraVolumes: []
   extraVolumeMounts: []
 
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -1332,7 +1335,8 @@ webserver:
     loadBalancerSourceRanges: []
 
   # Select certain nodes for airflow webserver pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   priorityClassName: ~
   affinity: {}
   # default webserver affinity is:
@@ -1473,7 +1477,8 @@ triggerer:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow triggerer pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   # default triggerer affinity is:
   #  podAntiAffinity:
@@ -1656,7 +1661,8 @@ dagProcessor:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow dag processor pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   # default dag processor affinity is:
   #  podAntiAffinity:
@@ -1827,7 +1833,8 @@ flower:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow flower pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -1903,7 +1910,8 @@ statsd:
     extraAnnotations: {}
 
   # Select certain nodes for StatsD pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -2050,7 +2058,8 @@ pgbouncer:
   extraContainers: []
 
   # Select certain nodes for PgBouncer pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -2174,7 +2183,8 @@ redis:
   safeToEvict: true
 
   # Select certain nodes for redis pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -2262,7 +2272,8 @@ cleanup:
   jobAnnotations: {}
 
   # Select certain nodes for airflow cleanup pods.
-  nodeSelector: {}
+  nodeSelector: 
+    NodeGroupType: vendor1-poc-core
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
