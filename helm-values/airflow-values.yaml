@@ -400,9 +400,9 @@ data:
   # Otherwise pass connection values in
   metadataConnection:
     user: postgres
-    pass: postgres
+    pass: WFphR0djQlR1YQ==
     protocol: postgresql
-    host: ~
+    host: postgres-postgresql.airflow.svc.cluster.local
     port: 5432
     db: postgres
     sslmode: disable
@@ -2316,7 +2316,7 @@ cleanup:
 # Configuration for postgresql subchart
 # Not recommended for production
 postgresql:
-  enabled: true
+  enabled: false
   auth:
     enablePostgresUser: true
     postgresPassword: postgres
