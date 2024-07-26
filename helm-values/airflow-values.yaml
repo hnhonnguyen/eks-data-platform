@@ -79,7 +79,7 @@ defaultAirflowDigest: ~
 # Images
 images:
   airflow:
-    repository: ~
+    repository: "962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-airflow"
     tag: ~
     # Specifying digest takes precedence over tag.
     digest: ~
