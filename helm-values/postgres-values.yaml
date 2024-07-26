@@ -145,9 +145,9 @@ image:
   digest: ""
   pullPolicy: IfNotPresent
   pullSecrets: []
-  registry: docker.io
-  repository: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-airflow-postgres
-  tag: 16.1.0-debian-11-r15
+  registry: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com
+  repository: vendor1-airflow-postgres
+  tag: 16.3.0-debian-12-r23
 kubeVersion: ""
 ldap:
   basedn: ""
