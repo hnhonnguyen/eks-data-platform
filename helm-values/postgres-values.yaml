@@ -72,7 +72,7 @@ backup:
       mountPath: /backup/pgdump
       resourcePolicy: ""
       size: 8Gi
-      storageClass: ""
+      storageClass: "gp2"
       subPath: ""
       volumeClaimTemplates:
         selector: {}
