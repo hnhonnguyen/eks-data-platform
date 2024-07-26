@@ -1848,7 +1848,7 @@ statsd:
   # Add custom annotations to the statsd configmap
   configMapAnnotations: {}
 
-  enabled: true
+  enabled: false
   # Max number of old replicasets to retain
   revisionHistoryLimit: ~
 
