@@ -12,7 +12,7 @@ auth:
   database: ""
   enablePostgresUser: true
   existingSecret: ""
-  password: ""
+  password: "" 
   postgresPassword: ""
   replicationPassword: ""
   replicationUsername: repl_user
@@ -131,7 +131,7 @@ global:
       database: ""
       existingSecret: ""
       password: ""
-      postgresPassword: ""
+      postgresPassword: "admin"
       secretKeys:
         adminPasswordKey: ""
         replicationPasswordKey: ""

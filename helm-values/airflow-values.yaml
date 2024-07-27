@@ -400,7 +400,7 @@ data:
   # Otherwise pass connection values in
   metadataConnection:
     user: postgres
-    pass: XZaGGcBTua
+    pass: admin
     protocol: postgresql
     host: postgres-postgresql.airflow.svc.cluster.local
     port: 5432
