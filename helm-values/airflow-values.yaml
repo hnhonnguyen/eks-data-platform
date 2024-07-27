@@ -2378,7 +2378,7 @@ config:
     statsd_host: '{{ printf "%s-statsd" (include "airflow.fullname" .) }}'
   webserver:
     enable_proxy_fix: 'True'
-    base_url: http://localhost:31151
+    base_url: http://localhost:31151/proxy/absolute/8080
     # For Airflow 1.10
     rbac: 'True'
     show_trigger_form_if_no_params: 'True'
