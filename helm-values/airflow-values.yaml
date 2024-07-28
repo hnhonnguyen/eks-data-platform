@@ -686,6 +686,8 @@ workers:
     - name: dags-s3-sync
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
       imagePullPolicy: IfNotPresent
+      securityContext:
+        runAsUser: 888
       env:
         - name: AWS_BUCKET
           value: "vendor1-poc-emr-20240725114624169500000001"
@@ -922,6 +924,8 @@ scheduler:
     - name: dags-s3-sync
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
       imagePullPolicy: IfNotPresent
+      securityContext:
+        runAsUser: 888
       env:
         - name: AWS_BUCKET
           value: "vendor1-poc-emr-20240725114624169500000001"
@@ -1341,6 +1345,8 @@ webserver:
     - name: dags-s3-sync
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
       imagePullPolicy: IfNotPresent
+      securityContext:
+        runAsUser: 888
       env:
         - name: AWS_BUCKET
           value: "vendor1-poc-emr-20240725114624169500000001"
