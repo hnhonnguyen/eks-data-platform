@@ -687,7 +687,7 @@ workers:
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
       imagePullPolicy: IfNotPresent
       securityContext:
-        runAsUser: 1111
+        runAsUser: 888
       env:
         - name: AWS_BUCKET
           value: "vendor1-poc-emr-20240725114624169500000001"
@@ -925,7 +925,7 @@ scheduler:
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
       imagePullPolicy: IfNotPresent
       securityContext:
-        runAsUser: 1111
+        runAsUser: 888
       env:
         - name: AWS_BUCKET
           value: "vendor1-poc-emr-20240725114624169500000001"
@@ -1346,7 +1346,7 @@ webserver:
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
       imagePullPolicy: IfNotPresent
       securityContext:
-        runAsUser: 1111
+        runAsUser: 888
       env:
         - name: AWS_BUCKET
           value: "vendor1-poc-emr-20240725114624169500000001"
