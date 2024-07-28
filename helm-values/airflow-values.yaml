@@ -680,8 +680,35 @@ workers:
   # Note: If used with KubernetesExecutor, you are responsible for signaling sidecars to exit when the main
   # container finishes so Airflow can continue the worker shutdown process!
   extraContainers: []
+    
   # Add additional init containers into workers.
-  extraInitContainers: []
+  extraInitContainers: 
+    - name: dags-s3-sync
+      image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: AWS_BUCKET
+          value: "vendor1-poc-emr-20240725114624169500000001"
+        - name: KEY_PATH
+          value: "dags"
+        - name: DEST_PATH
+          value: '{{ include "airflow_dags" . }}'
+      command:
+      # Sync all files from s3 to the dags folder, grant permissions to the airflow user and sleep
+        - /bin/sh
+        - -c
+        - >
+          while true; do
+            echo "---------------------------------------------------------------------------"
+            echo "Syncing s3://${AWS_BUCKET}/${KEY_PATH} to ${DEST_PATH}"
+            echo "aws s3 sync s3://${AWS_BUCKET}/${KEY_PATH} ${DEST_PATH} --exclude "*.pyc" --delete --exact-timestamps"
+            aws s3 sync s3://${AWS_BUCKET}/${KEY_PATH} ${DEST_PATH} --exclude "*.pyc" --delete --exact-timestamps
+            echo "Finish syncing s3://${AWS_BUCKET}/${KEY_PATH} to ${DEST_PATH}"
+            break
+          done
+      volumeMounts:
+        - name: dags-data
+          mountPath: '{{ include "airflow_dags" . }}'
 
   # Mount additional volumes into worker. It can be templated like in the following example:
   #   extraVolumes:
@@ -695,8 +722,13 @@ workers:
   #     - name: my-templated-extra-volume
   #       mountPath: "{{ .Values.my_custom_path }}"
   #       readOnly: true
-  extraVolumes: []
-  extraVolumeMounts: []
+  extraVolumes: 
+    - name: dags-data
+      emptyDir: {}
+
+  extraVolumeMounts:
+    - name: dags-data
+      mountPath: '{{ include "airflow_dags" . }}'
 
   # Select certain nodes for airflow worker pods.
   nodeSelector: {}
@@ -886,10 +918,40 @@ scheduler:
   safeToEvict: true
 
   # Launch additional containers into scheduler.
-  extraContainers: []
+  extraContainers: 
+    - name: dags-s3-sync
+      image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: AWS_BUCKET
+          value: "vendor1-poc-emr-20240725114624169500000001"
+        - name: KEY_PATH
+          value: "dags"
+        - name: DEST_PATH
+          value: '{{ include "airflow_dags" . }}'
+        - name: INTERVAL
+          value: "10"
+      command:
+      # Sync all files from s3 to the dags folder, grant permissions to the airflow user and sleep
+        - /bin/sh
+        - -c
+        - >
+          while true; do
+            echo "---------------------------------------------------------------------------"
+            echo "Syncing s3://${AWS_BUCKET}/${KEY_PATH} to ${DEST_PATH}"
+            echo "aws s3 sync s3://${AWS_BUCKET}/${KEY_PATH} ${DEST_PATH} --exclude "*.pyc" --delete --exact-timestamps"
+            aws s3 sync s3://${AWS_BUCKET}/${KEY_PATH} ${DEST_PATH} --exclude "*.pyc" --delete --exact-timestamps
+            echo "Finish syncing s3://${AWS_BUCKET}/${KEY_PATH} to ${DEST_PATH}"
+            echo "Sleep for ${INTERVAL} seconds"
+            echo "sleep ${INTERVAL}"
+            sleep ${INTERVAL};
+          done
+      volumeMounts:
+        - name: dags-data
+          mountPath: '{{ include "airflow_dags" . }}'
+
   # Add additional init containers into scheduler.
   extraInitContainers: []
-
   # Mount additional volumes into scheduler. It can be templated like in the following example:
   #   extraVolumes:
   #     - name: my-templated-extra-volume
@@ -902,8 +964,13 @@ scheduler:
   #     - name: my-templated-extra-volume
   #       mountPath: "{{ .Values.my_custom_path }}"
   #       readOnly: true
-  extraVolumes: []
-  extraVolumeMounts: []
+  extraVolumes: 
+    - name: dags-data
+      emptyDir: {}
+
+  extraVolumeMounts:
+    - name: dags-data
+      mountPath: '{{ include "airflow_dags" . }}'
 
   # Select certain nodes for airflow scheduler pods.
   nodeSelector: 
@@ -1270,7 +1337,37 @@ webserver:
     password: admin
 
   # Launch additional containers into webserver.
-  extraContainers: []
+  extraContainers: 
+    - name: dags-s3-sync
+      image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: AWS_BUCKET
+          value: "vendor1-poc-emr-20240725114624169500000001"
+        - name: KEY_PATH
+          value: "dags"
+        - name: DEST_PATH
+          value: '{{ include "airflow_dags" . }}'
+        - name: INTERVAL
+          value: "10"
+      command:
+      # Sync all files from s3 to the dags folder, grant permissions to the airflow user and sleep
+        - /bin/sh
+        - -c
+        - >
+          while true; do
+            echo "---------------------------------------------------------------------------"
+            echo "Syncing s3://${AWS_BUCKET}/${KEY_PATH} to ${DEST_PATH}"
+            echo "aws s3 sync s3://${AWS_BUCKET}/${KEY_PATH} ${DEST_PATH} --exclude "*.pyc" --delete --exact-timestamps"
+            aws s3 sync s3://${AWS_BUCKET}/${KEY_PATH} ${DEST_PATH} --exclude "*.pyc" --delete --exact-timestamps
+            echo "Finish syncing s3://${AWS_BUCKET}/${KEY_PATH} to ${DEST_PATH}"
+            echo "Sleep for ${INTERVAL} seconds"
+            echo "sleep ${INTERVAL}"
+            sleep ${INTERVAL};
+          done
+      volumeMounts:
+        - name: dags-data
+          mountPath: '{{ include "airflow_dags" . }}'
   # Add additional init containers into webserver.
   extraInitContainers: []
 
@@ -1286,8 +1383,13 @@ webserver:
   #     - name: my-templated-extra-volume
   #       mountPath: "{{ .Values.my_custom_path }}"
   #       readOnly: true
-  extraVolumes: []
-  extraVolumeMounts: []
+  extraVolumes: 
+    - name: dags-data
+      emptyDir: {}
+
+  extraVolumeMounts:
+    - name: dags-data
+      mountPath: '{{ include "airflow_dags" . }}'
 
   # This string (can be templated) will be mounted into the Airflow Webserver
   # as a custom webserver_config.py. You can bake a webserver_config.py in to
