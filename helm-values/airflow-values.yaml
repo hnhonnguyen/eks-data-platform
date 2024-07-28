@@ -685,7 +685,7 @@ workers:
   extraInitContainers: 
     - name: dags-s3-sync
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
       securityContext:
         runAsUser: 888
       env:
@@ -923,7 +923,7 @@ scheduler:
   extraContainers: 
     - name: dags-s3-sync
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
       securityContext:
         runAsUser: 888
       env:
@@ -1344,7 +1344,7 @@ webserver:
   extraContainers: 
     - name: dags-s3-sync
       image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-s3sync
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
       securityContext:
         runAsUser: 888
       env:
