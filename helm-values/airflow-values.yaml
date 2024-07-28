@@ -2471,14 +2471,7 @@ config:
   # email:
     # subject_template: /path/to/my_subject_template_file
     # html_content_template: /path/to/my_html_content_template_file
-  smtp:
-    smtp_host: smtp.gmail.com
-    smtp_starttls: 'True'
-    smtp_ssl: 'False'
-    smtp_port: 587
-    smtp_user: vn3848587@gmail.com
-    smtp_password: 'fjapnbphzarvcbmj'
-    smtp_mail_from: vn3848587@gmail.com
+  smtp: {}
   metrics:
     statsd_on: '{{ ternary "True" "False" .Values.statsd.enabled }}'
     statsd_port: 9125
