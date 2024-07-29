@@ -548,7 +548,8 @@ workers:
     name: ~
 
     # Annotations to add to worker kubernetes service account.
-    annotations: {}
+    annotations: 
+      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:policy/vendor1-poc-spark-irsa
 
   # Allow KEDA autoscaling.
   keda:
@@ -895,7 +896,8 @@ scheduler:
     name: ~
 
     # Annotations to add to scheduler kubernetes service account.
-    annotations: {}
+    annotations: 
+      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:policy/vendor1-poc-spark-irsa
 
   # Scheduler pod disruption budget
   podDisruptionBudget:
@@ -1282,7 +1284,8 @@ webserver:
     name: ~
 
     # Annotations to add to webserver kubernetes service account.
-    annotations: {}
+    annotations: 
+      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:policy/vendor1-poc-spark-irsa
 
   # Webserver pod disruption budget
   podDisruptionBudget:
