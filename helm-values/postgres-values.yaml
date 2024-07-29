@@ -123,7 +123,7 @@ global:
   compatibility:
     openshift:
       adaptSecurityContext: auto
-  defaultStorageClass: "gp2"
+  defaultStorageClass: "local-storage"
   imagePullSecrets: []
   imageRegistry: ""
   postgresql:
@@ -140,7 +140,7 @@ global:
     service:
       ports:
         postgresql: ""
-  storageClass: "gp2"
+  storageClass: "local-storage"
 image:
   debug: false
   digest: ""
