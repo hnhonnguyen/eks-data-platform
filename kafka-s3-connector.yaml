@@ -12,7 +12,7 @@ spec:
   replicas: 1
   image:
     application: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-cp-server-connect:7.0.5
-    init: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-confluent-init-container:2.2.0-5
+    init: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-confluent-init-container:2.2.0-6
   build:
     type: onDemand
     onDemand:
