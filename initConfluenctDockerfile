@@ -1,8 +1,8 @@
 FROM confluentinc/confluent-init-container:2.2.0-1
 
 # Copy the customized script into the image
-COPY generate_install_plugin_script.py /path/to/generate_install_plugin_script.py
+COPY generate_install_plugin_script.py /opt/generate_install_plugin_script.py
 USER root
 
 # Optional: Set appropriate permissions
-RUN chmod +x /path/to/generate_install_plugin_script.py
+RUN chmod +x /opt/generate_install_plugin_script.py
