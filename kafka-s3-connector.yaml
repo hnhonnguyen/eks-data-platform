@@ -2,7 +2,7 @@
 apiVersion: platform.confluent.io/v1beta1
 kind: Connect
 metadata:
-  name: S3
+  name: s3
   namespace: kafka
 spec:
   keyConverterType: io.confluent.connect.avro.AvroConverter
