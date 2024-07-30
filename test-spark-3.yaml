@@ -54,7 +54,7 @@ spec:
     spark.executor.defaultJavaOptions: -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseParallelGC -XX:InitiatingHeapOccupancyPercent=70 -XX:OnOutOfMemoryError='kill -9 %p'
     spark.driver.defaultJavaOptions:  -XX:OnOutOfMemoryError='kill -9 %p' -XX:+UseParallelGC -XX:InitiatingHeapOccupancyPercent=70
   driver:
-    cores: 1
+    cores: 1000m
     memory: "1g"
     serviceAccount: spark-team-a
     # Using Karpenter provisioner nodeSelectors and tolerations
@@ -65,7 +65,7 @@ spec:
         operator: "Exists"
         effect: "NoSchedule"
   executor:
-    cores: 1
+    cores: 1000m
     instances: 2
     memory: "1g"
     serviceAccount: spark-team-a
