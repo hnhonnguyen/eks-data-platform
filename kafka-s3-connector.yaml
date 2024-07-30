@@ -15,11 +15,11 @@ spec:
     type: onDemand
     onDemand:
       plugins:
-        confluentHub: []
-        url: []
-          # - name: kafka-connect-s3
-          #   archivePath: https://raw.githubusercontent.com/confluentinc/confluent-kubernetes-examples/master/hybrid/ccloud-JDBC-mysql/confluentinc-kafka-connect-jdbc-10.2.5.zip
-          #   checksum: 9d033fabac89ec0b35a97246f7ca3a36800bcb402ccfbd76adebd4c4c9ca6e7d6a044a9162383a18f99400893581b55a87b9fe89e35276507e9a3fb6cff3fda0
+        locationType: url
+        url:
+          - name: kafka-connect-s3
+            archivePath: https://vendor1-poc-emr-20240725114624169500000001.s3.ap-southeast-1.amazonaws.com/kafkaconnect/confluentinc-kafka-connect-s3-10.5.13.zip
+            checksum: d362bebfc33cb834949e6b930b20129a02e1b81143fecb8a56a5e12b05693f10349ab0f8233a00f3200185614d7c9f9d7737f80495354a6cc95f779591661167
   dependencies:
     kafka:
       bootstrapEndpoint: 'b-1.vpbpocdevextmskcl.h7bk9y.c5.kafka.ap-southeast-1.amazonaws.com:9092,b-2.vpbpocdevextmskcl.h7bk9y.c5.kafka.ap-southeast-1.amazonaws.com:9092'
