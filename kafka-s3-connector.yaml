@@ -7,7 +7,7 @@ spec:
     replicas: 1
     image:
         application: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-cp-server-connect:7.0.1
-        init: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-confluent-init-container:2.2.0-1
+        # init: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-confluent-init-container:2.2.0-1
     podTemplate:
         resources:
             requests:
@@ -28,15 +28,15 @@ spec:
             fsGroup: 1000
             runAsUser: 1000
             runAsNonRoot: true
-    build:
-        type: onDemand
-        onDemand:
-            plugins:
-                locationType: confluentHub
-                confluentHub:
-                    - name: kafka-connect-s3
-                      owner: confluentinc
-                      version: latest
+    # build:
+    #     type: onDemand
+    #     onDemand:
+    #         plugins:
+    #             locationType: confluentHub
+    #             confluentHub:
+    #                 - name: kafka-connect-s3
+    #                   owner: confluentinc
+    #                   version: latest
     dependencies:
         kafka:
             bootstrapEndpoint: "b-1.vpbpocdevextmskcl.h7bk9y.c5.kafka.ap-southeast-1.amazonaws.com:9092,b-2.vpbpocdevextmskcl.h7bk9y.c5.kafka.ap-southeast-1.amazonaws.com:9092"
