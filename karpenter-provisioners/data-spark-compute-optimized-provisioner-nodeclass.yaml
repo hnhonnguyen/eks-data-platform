@@ -15,7 +15,7 @@ spec:
   role: "${node_iam_role_arn}"
   subnetSelectorTerms:
     - tags: # Update the correct region and zones
-        Name: "non-prod-baseline-app-ap-southeast-1c*"
+        Name: "non-prod-baseline-app-ap-southeast-1a-subnet*"
   securityGroupSelectorTerms:
     - name: "${eks_cluster_id}-node*"
   userData: |
