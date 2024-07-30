@@ -28,7 +28,7 @@ with open(output_file, 'w+') as of:
         for plugin in urlPlugins:
             filename = get_file_name("/mnt/plugins", plugin['Name'], ZIP_EXTENSION)
             # download file
-            of.write(f"wget --no-check-certificate -O {filename} -P /mnt/plugins \n")
+            of.write(f"wget {plugin['ArchivePath']} -O {filename} -P /mnt/plugins --no-check-certificate \n")
 
             # # verify checksum
             # sha512filename = get_file_name("/mnt/plugins", plugin['Name'], '.sha512')
