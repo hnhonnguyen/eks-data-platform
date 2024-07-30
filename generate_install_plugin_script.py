@@ -18,4 +18,5 @@ with open(plugins_json_file) as pf:
 with open(output_file, 'w+') as of:
     of.write('#!/usr/bin/env sh \n')
 
-    of.write(f"echo HELLO \n")
+    of.write('echo HELLO \n')
+os.chmod(output_file, 0o755)
