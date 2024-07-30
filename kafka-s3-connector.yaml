@@ -35,6 +35,11 @@ spec:
             fsGroup: 1000
             runAsUser: 1000
             runAsNonRoot: true
+
+        tolerations:
+          - key: "spark-compute-optimized"
+            operator: "Exists"
+            effect: "NoSchedule"
     build:
         type: onDemand
         onDemand:
