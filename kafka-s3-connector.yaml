@@ -4,6 +4,8 @@ kind: Connect
 metadata:
   name: s3
   namespace: kafka
+  annotations:
+    platform.confluent.io/connector-wget-extra-args: "--no-check-certificate"
 spec:
   keyConverterType: io.confluent.connect.avro.AvroConverter
   valueConverterType: io.confluent.connect.avro.AvroConverter
