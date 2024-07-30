@@ -55,7 +55,7 @@ spec:
     spark.driver.defaultJavaOptions:  -XX:OnOutOfMemoryError='kill -9 %p' -XX:+UseParallelGC -XX:InitiatingHeapOccupancyPercent=70
   driver:
     cores: 1
-    memory: "4g"
+    memory: "1g"
     serviceAccount: spark-team-a
     # Using Karpenter provisioner nodeSelectors and tolerations
     nodeSelector:
@@ -67,7 +67,7 @@ spec:
   executor:
     cores: 1
     instances: 2
-    memory: "4g"
+    memory: "1g"
     serviceAccount: spark-team-a
     # Using Karpenter provisioner nodeSelectors and tolerations
     nodeSelector:
