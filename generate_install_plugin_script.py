@@ -4,5 +4,18 @@ import sys
 import json
 import os
 
+ZIP_EXTENSION = ".zip"
 
-print("HELLO WORLD")
+plugins_json_file = sys.argv[1]
+output_file = sys.argv[2]
+
+def get_file_name(path, name, type):
+    return path + '/' + name + type
+
+with open(plugins_json_file) as pf:
+    plugins_object = json.load(pf)
+
+with open(output_file, 'w+') as of:
+    of.write('#!/usr/bin/env sh \n')
+
+    of.write(f"echo HELLO \n")
