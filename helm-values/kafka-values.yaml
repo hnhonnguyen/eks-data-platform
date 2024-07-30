@@ -1,0 +1,76 @@
+COMPUTED VALUES:
+affinity: {}
+clusterRole:
+  openshift: true
+containerSecurity:
+  enabled: false
+  securityContext: {}
+debug: false
+fipsmode: false
+image:
+  pullPolicy: Always
+  registry: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/
+  repository: vendor1-confluent-operator
+  tag: 0.921.40
+kRaftEnabled: false
+license:
+  directoryPathInContainer: ""
+  secretRef: ""
+licenseKey: ""
+licenseSecretRef: ""
+managedCerts:
+  caCertificate:
+    directoryPathInContainer: ""
+    secretRef: ""
+  certDurationInDays: 60
+  enabled: false
+  renewBeforeInDays: 30
+  sans: ""
+mountedVolumes:
+  volumeMounts: []
+  volumes: []
+name: confluent-operator
+namespaceList: []
+namespaced: true
+pod:
+  annotations:
+    prometheus.io/path: /metrics
+    prometheus.io/port: "7778"
+    prometheus.io/scrape: "true"
+  labels: {}
+podSecurity:
+  enabled: true
+  securityContext:
+    fsGroup: 1001
+    runAsNonRoot: true
+    runAsUser: 1001
+priorityClassName: ""
+rbac: true
+replicas: 1
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+serviceAccount:
+  create: true
+  name: ""
+telemetry:
+  directoryPathInContainer: ""
+  enabled: false
+  operator:
+    enabled: false
+  proxy:
+    credentialRequired: false
+    enabled: false
+  secretRef: ""
+terminationGracePeriodSeconds: 30
+tolerations: []
+webhooks:
+  enabled: false
+  port: 8443
+  tls:
+    directoryPathInContainer: ""
+    secretRef: ""
