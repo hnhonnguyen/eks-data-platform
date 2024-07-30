@@ -9,7 +9,7 @@ debug: false
 fipsmode: false
 image:
   pullPolicy: Always
-  registry: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/
+  registry: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com
   repository: vendor1-confluent-operator
   tag: 0.921.40
 kRaftEnabled: false
