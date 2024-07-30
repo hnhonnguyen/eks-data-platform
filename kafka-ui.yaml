@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka-ui
+  namespace: kafka
 spec:
   replicas: 1
   selector:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
       - name: kafka-ui
-        image: provectuslabs/kafka-ui:latest
+        image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-kafka-ui:latest
         ports:
         - containerPort: 8080
         env:
