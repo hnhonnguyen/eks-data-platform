@@ -17,7 +17,6 @@ spec:
     type: onDemand
     onDemand:
       plugins:
-        locationType: url
         url:
           - name: kafka-connect-s3
             archivePath: https://raw.githubusercontent.com/hnhonnguyen/eks-data-platform/8d8166dc6c3a711aaea725c6eef7023ebcd66a22/confluentinc-kafka-connect-s3-10.5.13.zip
