@@ -18,8 +18,8 @@ spec:
     podTemplate:
         resources:
             requests:
-                cpu: 1000m
-                memory: 512Mi
+                cpu: 1
+                memory: 1Gi
         probe:
             liveness:
                 periodSeconds: 10
