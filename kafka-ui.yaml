@@ -16,6 +16,8 @@ spec:
       containers:
       - name: kafka-ui
         image: 962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-kafka-ui:latest
+        securityContext:
+          runAsUser: 0
         ports:
         - containerPort: 8080
         env:
