@@ -38,5 +38,5 @@ policies/*
 test/*
 
 *.txt
-*.zip
+# *.zip
 .ipynb_checkpoints*
