@@ -30,7 +30,7 @@ spec:
         - name: KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME
           value: first
         - name: KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS
-          value: http://s3-0-internal.kafka.svc.cluster.local:8083
+          value: http://s3.kafka.svc.cluster.local:8083
         resources:
           requests:
             memory: "512Mi"
