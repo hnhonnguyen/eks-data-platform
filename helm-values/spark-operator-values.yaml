@@ -23,7 +23,8 @@ resources:
     requests:
         cpu: 100m
         memory: 512Mi
-
+emrContainers:
+    awsRegion: ap-southeast-1
 batchScheduler:
     # -- Enable batch scheduler for spark jobs scheduling. If enabled, users can specify batch scheduler name in spark application
     enable: true
