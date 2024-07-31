@@ -359,7 +359,9 @@ extraConfigMaps: {}
 # Extra env 'items' that will be added to the definition of airflow containers
 # a string is expected (can be templated).
 # TODO: difference from `env`? This is a templated string. Probably should template `env` and remove this.
-extraEnv: ~
+extraEnv: |
+  - name: AIRFLOW__WEBSERVER__EXPOSE_CONFIG
+    value: 'True'
 # eg:
 # extraEnv: |
 #   - name: AIRFLOW__CORE__LOAD_EXAMPLES
