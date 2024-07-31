@@ -8,7 +8,7 @@ spec:
   pythonVersion: "3"
   mode: cluster
   # EMR optimized runtime image
-  image: "671219180197.dkr.ecr.ap-southeast-1.amazonaws.com/spark/emr-7.1.0:latest"
+  image: "962116418130.dkr.ecr.ap-southeast-1.amazonaws.com/vendor1-spark:v2"
   imagePullPolicy: Always
   mainApplicationFile: s3://vendor1-poc-emr-20240725114624169500000001/spark_scripts/demo.py
   sparkVersion: "3.5.0"
