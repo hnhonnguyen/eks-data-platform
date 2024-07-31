@@ -2468,11 +2468,11 @@ config:
     remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
     default_timezone: 'Asia/Ho_Chi_Minh'
   logging:
-    remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
-    # remote_logging: True
-    # remote_base_log_folder: s3://vendor1-poc-emr-20240725114624169500000001/airflow-log/
-    # remote_log_conn_id: S3
-    # colored_console_log: 'False'
+    # remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
+    remote_logging: True
+    remote_base_log_folder: s3://vendor1-poc-emr-20240725114624169500000001/airflow-log/
+    remote_log_conn_id: S3
+    colored_console_log: 'False'
   # email:
     # subject_template: /path/to/my_subject_template_file
     # html_content_template: /path/to/my_html_content_template_file
