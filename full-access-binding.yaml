@@ -4,8 +4,8 @@ metadata:
   name: spark-operator-full-access-binding
 subjects:
 - kind: ServiceAccount
-  name: emr-containers-sa-spark
-  namespace: emr-spark-operator
+  name: spark-team-a
+  namespace: spark-team-a
 roleRef:
   kind: ClusterRole
   name: spark-operator-full-access
