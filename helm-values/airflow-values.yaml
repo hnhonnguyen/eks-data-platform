@@ -297,7 +297,6 @@ enableBuiltInSecretEnvVars:
   AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: true
   AIRFLOW_CONN_AIRFLOW_DB: true
   AIRFLOW__WEBSERVER__SECRET_KEY: true
-  AIRFLOW__WEBSERVER__EXPOSE_CONFIG: true
   AIRFLOW__CELERY__CELERY_RESULT_BACKEND: true
   AIRFLOW__CELERY__RESULT_BACKEND: true
   AIRFLOW__CELERY__BROKER_URL: true
@@ -2467,11 +2466,11 @@ config:
     remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
     default_timezone: 'Asia/Ho_Chi_Minh'
   logging:
-    # remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
-    remote_logging: True
-    remote_base_log_folder: s3://vendor1-poc-emr-20240725114624169500000001/airflow-log/
-    remote_log_conn_id: S3
-    colored_console_log: 'False'
+    remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
+    # remote_logging: True
+    # remote_base_log_folder: s3://vendor1-poc-emr-20240725114624169500000001/airflow-log/
+    # remote_log_conn_id: S3
+    # colored_console_log: 'False'
   # email:
     # subject_template: /path/to/my_subject_template_file
     # html_content_template: /path/to/my_html_content_template_file
