@@ -10,3 +10,24 @@ roleRef:
   kind: ClusterRole
   name: spark-operator-full-access
   apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: airflow-full-access-binding
+subjects:
+- kind: ServiceAccount
+  name: airflow-worker
+  namespace: airflow
+- kind: ServiceAccount
+  name: airflow-scheduler
+  namespace: airflow
+- kind: ServiceAccount
+  name: airflow-webserver
+  namespace: airflow
+roleRef:
+  kind: ClusterRole
+  name: airflow-full-access
+  apiGroup: rbac.authorization.k8s.io
