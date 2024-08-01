@@ -125,27 +125,27 @@ module "eks_blueprints_addons" {
   #---------------------------------------
   # Adding AWS Load Balancer Controller
   #---------------------------------------
-  enable_aws_load_balancer_controller = true
-  aws_load_balancer_controller = {
-    chart_version = "1.8.1"
-    name          = "${local.name}-aws-load-balancer-controller"
-    role_name     = "${local.name}-alb-controller"
-  }
+  # enable_aws_load_balancer_controller = true
+  # aws_load_balancer_controller = {
+  #   chart_version = "1.8.1"
+  #   name          = "${local.name}-aws-load-balancer-controller"
+  #   role_name     = "${local.name}-alb-controller"
+  # }
   #---------------------------------------
   # Install cert-manager
   #---------------------------------------
-  enable_cert_manager = true
-  cert_manager = {
-    chart_version = "1.15.1"
-    depends_on    = [module.eks_blueprints_addons.aws_load_balancer_controller]
-    values        = [templatefile("${path.module}/helm-values/cert-manager.yaml", {})]
-    set_values = [
-      {
-        name  = "extraArgs[0]"
-        value = "--enable-certificate-owner-ref=false"
-      },
-    ]
-  }
+  # enable_cert_manager = true
+  # cert_manager = {
+  #   chart_version = "1.15.1"
+  #   depends_on    = [module.eks_blueprints_addons.aws_load_balancer_controller]
+  #   values        = [templatefile("${path.module}/helm-values/cert-manager.yaml", {})]
+  #   set_values = [
+  #     {
+  #       name  = "extraArgs[0]"
+  #       value = "--enable-certificate-owner-ref=false"
+  #     },
+  #   ]
+  # }
   #---------------------------------------
   # AWS for FluentBit - DaemonSet
   #---------------------------------------
