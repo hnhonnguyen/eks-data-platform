@@ -899,7 +899,7 @@ scheduler:
 
     # Annotations to add to scheduler kubernetes service account.
     annotations: 
-      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:role/vendor1-poc-spark-team-a-20240725114624428400000009
+      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:role/vendor1-poc-spark-team-a-20240801084114427800000007
 
   # Scheduler pod disruption budget
   podDisruptionBudget:
@@ -1287,7 +1287,7 @@ webserver:
 
     # Annotations to add to webserver kubernetes service account.
     annotations: 
-      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:role/vendor1-poc-spark-team-a-20240725114624428400000009
+      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:role/vendor1-poc-spark-team-a-20240801084114427800000007
 
   # Webserver pod disruption budget
   podDisruptionBudget:
