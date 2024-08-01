@@ -551,7 +551,7 @@ workers:
 
     # Annotations to add to worker kubernetes service account.
     annotations: 
-      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:role/vendor1-poc-spark-team-a-20240725114624428400000009
+      "eks.amazonaws.com/role-arn": arn:aws:iam::962116418130:role/vendor1-poc-spark-team-a-20240801084114427800000007
 
   # Allow KEDA autoscaling.
   keda:
