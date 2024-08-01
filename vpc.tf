@@ -9,8 +9,7 @@ variable "subnet_ids" {
     "subnet-03589b20db544b118",
     "subnet-005a76641b441106a",
     "subnet-047ed6ff2bb4afd21",
-    "subnet-08c505511f941f3bf",
-    "subnet-0740ab17f54932e7b"
+    "subnet-08c505511f941f3bf"
   ]
 }
 
